@@ -1,0 +1,41 @@
+<div class="be-wrapper be-login be-signup">
+  <div class="be-content">
+    <div class="main-content container-fluid">
+      <div class="splash-container sign-up">
+        <div class="panel panel-default panel-border-color panel-border-color-primary">
+          <div class="panel-heading"><img src="assets/img/logo-xx.png" alt="logo" width="102" height="27"
+                                          class="logo-img"><span class="splash-description">Please enter your user information.</span>
+          </div>
+          <div class="panel-body">
+            <form action="index.html" method="get"><span class="splash-title xs-pb-20">Sign Up</span>
+              <div class="form-group">
+                <input [(ngModel)]="account.username" type="text" name="username" required="" placeholder="Username"
+                       autocomplete="off"
+                       class="form-control">
+              </div>
+              <div class="form-group">
+                <input [(ngModel)]="account.email" type="email" name="email" required="" placeholder="E-mail"
+                       autocomplete="off"
+                       class="form-control">
+              </div>
+              <div class="form-group row signup-password">
+                <div class="col-xs-6">
+                  <input [(ngModel)]="account.password" name="password" id="password" type="password" required=""
+                         class="form-control">
+                </div>
+                <div class="col-xs-6">
+                  <input [(ngModel)]="passwordConfirm" name="passwordConfirm" required="" placeholder="Confirm"
+                         class="form-control">
+                </div>
+              </div>
+              <div class="form-group xs-pt-10">
+                <button (click)="signUp()" type="submit" class="btn btn-block btn-primary btn-xl">Sign Up</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="splash-footer">&copy; 2016 Your Company</div>
+      </div>
+    </div>
+  </div>
+</div>

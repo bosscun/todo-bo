@@ -1,0 +1,142 @@
+<div class="be-content">
+  <div class="page-head">
+  </div>
+  <div class="main-content container-fluid">
+    <h3 class="text-center">List Todo</h3>
+    <div class="row">
+      <!--Responsive table-->
+      <div class="col-sm-12">
+        <div class="panel panel-default panel-table">
+          <div class="panel-heading">List Todo
+            <div class="tools">
+              <button (click)="currentTodo = assign({}); currentAccount = assign({})" data-toggle="modal"
+                      data-target="#form-bp1"
+                      class="btn btn-space btn-primary"><i
+                class="icon icon-left mdi mdi-plus"></i> Add
+              </button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="table-responsive noSwipe">
+              <table class="table table-striped table-borderless">
+                <thead>
+                <tr>
+                  <th style="width:5%;">ID</th>
+                  <th style="width:20%;">Name</th>
+                  <th style="width:30%;">User</th>
+                  <th style="width:10%;">Created date</th>
+                  <th class="actions">Action</th>
+                </tr>
+                </thead>
+                <tbody class="no-border-x">
+                <tr *ngFor="let todo of newTodo">
+                  <td>{{ todo.id }}</td>
+                  <td>
+                    <a [routerLink]="todo.id + '/note'">{{ todo.title }}</a>
+                  </td>
+                  <td class="number" style="text-align:left;">{{ todo.description || '-' }}</td>
+                  <td class="number" style="text-align:left;">{{ todo.status }}</td>
+                  <td class="actions" style="text-align:center;">
+                    <button data-toggle="modal" data-target="#mod-danger"
+                            class="btn btn-space btn-danger"><i
+                      class="icon icon-left mdi mdi-delete"></i> Delete
+                    </button>
+                    <button (click)="currentTodo = todo; currentAccount = todo.account || {}" data-toggle="modal"
+                            data-target="#form-bp1"
+                            class="btn btn-space btn-primary"><i
+                      class="icon icon-left mdi mdi-edit"></i> Edit
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <div *ngIf="!todoLoading && newTodo.length === 0" role="alert"
+                   class="alert alert-success alert-icon alert-icon-colored alert-dismissible">
+                <div class="icon"><span class="mdi mdi-spinner loading"></span></div>
+                <div class="message">
+                  <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true"
+                                                                                                    class="mdi mdi-close"></span>
+                  </button>
+                  <strong>Good!</strong> No content
+                </div>
+              </div>
+              <div *ngIf="todoLoading" role="alert"
+                   class="alert alert-success alert-icon alert-icon-colored alert-dismissible">
+                <div class="icon"><span class="mdi mdi-spinner loading"></span></div>
+                <div class="message">
+                  <button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true"
+                                                                                                    class="mdi mdi-close"></span>
+                  </button>
+                  <strong>Good!</strong> Data loading
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="form-bp1" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+  <div class="modal-dialog custom-width">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span
+          class="mdi mdi-close"></span></button>
+        <h3 class="modal-title">{{ currentTodo.id ? 'Edit Todo' : 'Add new Todo' }}</h3>
+      </div>
+
+      <div class="modal-body">
+        <form id="createTodo" data-parsley-validate="" novalidate="">
+          <div class="form-group">
+            <label>Name</label>
+            <input [(ngModel)]="currentTodo.title" type="text" placeholder="To do 1" name="todoTile" required=""
+                   class="form-control">
+          </div>
+          <div class="form-group">
+            <label>User</label>
+            <div class="form-group">
+              <select class="form-control" [compareWith]='accountEqual' [(ngModel)]="currentAccount" name="accountId"
+                      required="">
+                <option *ngFor="let account of accounts" [ngValue]="account">{{ account.username }}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-default md-close">Cancel</button>
+          <button (click)="createOrEditTodo(currentTodo,currentAccount)" type="button"
+                  class="btn btn-primary md-close">Proceed
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<div id="mod-danger" tabindex="-1" role="dialog" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" data-dismiss="modal" aria-hidden="true" class="close"><span class="mdi mdi-close"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <div class="text-danger"><span class="modal-main-icon mdi mdi-close-circle-o"></span></div>
+          <h3>Danger!</h3>
+          <p>Do you wanto delete {{ currentTodo?.title }}</p>
+          <div class="xs-mt-50">
+            <button type="button" data-dismiss="modal" class="btn btn-space btn-default">Cancel</button>
+            <button (click)="deleteTodo(currentTodo)" type="button" data-dismiss="modal"
+                    class="btn btn-space btn-danger">Proceed
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+
